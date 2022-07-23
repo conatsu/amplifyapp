@@ -3,13 +3,13 @@ import './App.css';
 import { API } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
-import { createNote, createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
+import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 
-const initialFormState = { name: '', description: '' };
+const initialFormState = { name: '', description: '' }
 
 function App() {
   const [notes, setNotes] = useState([]);
-  const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
     fetchNotes();
@@ -20,10 +20,10 @@ function App() {
     setNotes(apiData.data.listNotes.items);
   }
 
-  async function createNotes() {
-    if (!formData.name || formData.description) return;
+  async function createNote() {
+    if (!formData.name || !formData.description) return;
     await API.graphql({ query: createNoteMutation, variables: { input: formData } });
-    setNotes([...notes, formData ]);
+    setNotes([ ...notes, formData ]);
     setFormData(initialFormState);
   }
 
@@ -35,15 +35,15 @@ function App() {
 
   return (
     <div className="App">
-      <h1>My Note App</h1>
+      <h1>My Notes App</h1>
       <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
-        placeholder='Note name'
+        placeholder="Note name"
         value={formData.name}
       />
       <input
         onChange={e => setFormData({ ...formData, 'description': e.target.value})}
-        placeholder='Note description'
+        placeholder="Note description"
         value={formData.description}
       />
       <button onClick={createNote}>Create Note</button>
