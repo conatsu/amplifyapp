@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import { API } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
-import { createNotes as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutatic';
+import { createNote, createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 
 const initialFormState = { name: '', description: '' };
 
